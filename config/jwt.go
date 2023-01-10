@@ -1,7 +1,5 @@
 package config
 
-import "os"
-
-var jwt_secret = os.Getenv("jwt_secret")
+var jwt_secret = ("12345")
 
 var Key = []byte(jwt_secret)

@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 	"time"
 
 	"github.com/enescedev/gotodo/config"
@@ -68,13 +67,13 @@ func createJWT(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	var jwt_secret = os.Getenv("jwt_secret")
+	/*var jwt_secret = os.Getenv("jwt_secret")
 
 	if jwt_secret == "" {
 		log.Fatal("jwt anahtarı yok")
 		return
 	}
-
+	*/
 	// init cache connection
 	cache = config.CacheConnection("localhost:6379", "")
 	log.Println("Redis e bağlandı")
