@@ -1,0 +1,38 @@
+# simple docker-compose.yml file for redis, postgres and minio and elastic
+version: '3'
+
+services:
+  # postgresql service
+  postgresqlapp:
+    image: postgres:12.13-alpine
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./volumes/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=bbpguser
+      - POSTGRES_PASSWORD=bbpguserpassword
+      - POSTGRES_DB=postgres
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    restart: always
+    healthcheck:
+      test: pg_isready -U "$$POSTGRES_USER" -d "$$POSTGRES_DB"
+      interval: 10s
+      timeout: 2s
+      retries: 10
+  # redis service
+  redisapp:
+    image: redis:7.0-rc3-alpine3.15
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./volumes/redis:/data
+    restart: always
+    command: redis-server --dir /data
+    healthcheck:
+      test: redis-cli -h "$$HOST" -p "$$PORT" ping
+      interval: 10s
+      timeout: 2s
+      retries: 10
+
+# network: bbfnnet
